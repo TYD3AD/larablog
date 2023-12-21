@@ -18,6 +18,24 @@
                     <!-- Input de titret de l'article -->
                     <input type="text" value="{{ $article->title }}" name="title" id="title" placeholder="Titre de l'article" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 </div>
+                <div class="flex flex-row">
+                <?php var_dump($article->categories); die();?>
+
+                @foreach($categories as $category)
+
+                <div class="p-6 text-gray-900 dark:text-gray-100 flex items-center">
+                    <!-- Action sur le formulaire -->
+                    <div class="grow">
+                        @if (in_array($article->categories, '$category'))
+                        <input type="checkbox" name="categories[]" id="category_{{ $category->id }}" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ $category->id }} checked">
+                        @else
+                        <input type="checkbox" name="categories[]" id="category_{{ $category->id }}" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ $category->id }}">
+                        @endif
+                        <label for="category_{{ $category->id }}">{{ $category->name }}</label>
+                    </div>
+                </div>
+                @endforeach
+                </div>
 
                 <div class="p-6 pt-0 text-gray-900 dark:text-gray-100">
                     <!-- Contenu de l'article -->

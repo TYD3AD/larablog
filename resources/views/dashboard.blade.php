@@ -31,6 +31,11 @@
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-4">
         <div class="p-6 text-gray-900 dark:text-gray-100">
             <h2 class="text-2xl font-bold">{{ $article->title }}</h2>
+            <div class="flex flex-row">
+                    @foreach($article->categories as $cat)
+                        <p class="px-2">#{{$cat->name}}</p>
+                    @endforeach
+                </div>
             <p class="text-gray-700 dark:text-gray-300">{{ substr($article->content, 0, 30) }}...</p>
             <a href="/articles/{{$article->id}}/edit">
                 modifier

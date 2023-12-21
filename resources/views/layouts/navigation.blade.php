@@ -20,6 +20,10 @@
                 <x-nav-link :href="route('articles.create')" :active="request()->routeIs('article.create')">
                     Créer un article
                 </x-nav-link>
+
+                <x-nav-link :href="route('public.index', ['user' =>Auth::user()->id ])" :active="request()->routeIs('public.index')">
+                    Voir mon blog
+                </x-nav-link>
             </div>
 
             <!-- Settings Dropdown -->

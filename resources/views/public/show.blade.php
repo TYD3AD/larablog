@@ -4,6 +4,11 @@
             {{ $article->title }}
         </h2>
     </div>
+    <div class="flex flex-row">
+                    @foreach($article->categories as $cat)
+                        <p class="px-2 text-white">#{{$cat->name}}</p>
+                    @endforeach
+                </div>
 
     <div class="text-gray-500 text-sm">
         Publié le {{ $article->created_at->format('d/m/Y') }} par <a href="{{ route('public.index', $article->user->id) }}">{{ $article->user->name }}</a>

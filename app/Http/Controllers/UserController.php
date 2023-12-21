@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -12,19 +13,23 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        
+        return view('articles.create',['categories'=>Category::all()]);
     }
 
     public function store(Request $request)
     {
+        
         // On récupère les données du formulaire
-        $data = $request->only(['title', 'content', 'draft']);
+        $data = $request->only(['title', 'content', 'draft', 'categories']);
 
         // Créateur de l'article (auteur)
         $data['user_id'] = Auth::user()->id;
 
         // Gestion du draft
         $data['draft'] = isset($data['draft']) ? 1 : 0;
+
+
 
         // On crée l'article
         $article = Article::create($data); // $Article est l'objet article nouvellement créé
@@ -33,10 +38,10 @@ class UserController extends Controller
         // $article->categories()->sync(1);
 
         // Exemple pour ajouter des catégories à l'article
-        // $article->categories()->sync([1, 2, 3]);
+        // $article->categories()->sync([$data['categories']]);
 
         // Exemple pour ajouter des catégories à l'article en venant du formulaire
-        // $article->categories()->sync($request->input('categories'));
+         $article->categories()->sync($request->input('categories'));
 
         // On redirige l'utilisateur vers la liste des articles
         $success = "Article créé !";
@@ -65,7 +70,8 @@ class UserController extends Controller
 
         // On retourne la vue avec l'article
         return view('articles.edit', [
-            'article' => $article
+            'article' => $article,
+            'categories'=> Category::all()
         ]);
     }
 
@@ -77,13 +83,14 @@ class UserController extends Controller
         }
 
         // On récupère les données du formulaire
-        $data = $request->only(['title', 'content', 'draft']);
+        $data = $request->only(['title', 'content', 'draft', 'categories']);
 
         // Gestion du draft
         $data['draft'] = isset($data['draft']) ? 1 : 0;
 
         // On met à jour l'article
         $article->update($data);
+        $article->categories()->sync($request->input('categories'));
 
         // On redirige l'utilisateur vers la liste des articles (avec un flash)
         return redirect()->route('dashboard')->with('success', 'Article mis à jour !');
