@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -14,10 +15,12 @@ use App\Http\Controllers\ProfileController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 /* Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,4 +38,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/articles/{article}/remove', [UserController::class, 'remove'])->name('articles.remove');
 });
 
-require __DIR__ . '/auth.php';
+Route::get('/{user}', [PublicController::class, 'index'])->name('public.index');
+Route::get('/{user}/{article}', [PublicController::class, 'show'])->name('public.show');
