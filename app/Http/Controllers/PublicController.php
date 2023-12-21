@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,7 @@ class PublicController extends Controller
     // $article est l'article à afficher
     return view('public.show', [
         'article' => $article,
-        'user' => $user
+        'user' => $user,
     ]);
     // Je vous laisse faire le code
     // N'oubliez pas de vérifier que l'article est publié (draft == 0)
